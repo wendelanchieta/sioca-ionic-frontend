@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { OcorrenciaService } from '../../services/domain/ocorrencia.service';
 
 /**
  * Generated class for the OcorrenciasPage page.
@@ -15,11 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class OcorrenciasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public ocorrenciaService: OcorrenciaService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OcorrenciasPage');
+    this.ocorrenciaService.findAll().subscribe(response => {
+      console.log(response);
+    },
+    error => {
+      console.log(error);
+    });
+
   }
 
 }

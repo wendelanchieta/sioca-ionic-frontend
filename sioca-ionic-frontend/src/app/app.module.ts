@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule} from '@angular/common/http'
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
@@ -6,13 +7,15 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { OcorrenciaService } from '../services/domain/ocorrencia.service';
 
 @NgModule({
   declarations: [
     MyApp
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, 
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -22,6 +25,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    OcorrenciaService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
