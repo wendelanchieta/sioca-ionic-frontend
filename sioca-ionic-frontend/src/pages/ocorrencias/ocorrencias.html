@@ -10,5 +10,13 @@
 </ion-header>
 
 <ion-content padding>
-  <p>Página de Ocorrências</p>
+  <ion-list>
+    <button ion-item *ngFor="let item of items">
+      <ion-thumbnail item-start>
+        <img src="assets/imgs/no-img.jpg">
+      </ion-thumbnail>
+      <h2>{{item.codigoOcorrencia}}</h2>
+      <p>{{item.descricao}}</p>
+    </button>
+  </ion-list>
 </ion-content>

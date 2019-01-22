@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OcorrenciaService } from '../../services/domain/ocorrencia.service';
+import { OcorrenciaDTO } from '../../models/ocorrencias.dto';
 
 /**
  * Generated class for the OcorrenciasPage page.
@@ -16,6 +17,8 @@ import { OcorrenciaService } from '../../services/domain/ocorrencia.service';
 })
 export class OcorrenciasPage {
 
+  items: OcorrenciaDTO[];
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -24,7 +27,7 @@ export class OcorrenciasPage {
 
   ionViewDidLoad() {
     this.ocorrenciaService.findAll().subscribe(response => {
-      console.log(response);
+      this.items = response;
     },
     error => {
       console.log(error);
