@@ -1,87 +1,123 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Cadastrar Ocorrência</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <form (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
+    <form [formGroup]="formGroup" (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
+    
     <ion-item>
-      <ion-label stacked>Nome*</ion-label>
-      <ion-input name="nome" type="text"></ion-input>
+      <ion-label stacked>Número único*</ion-label>
+      <ion-input formControlName="codigoOcorrencia" type="text"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label stacked>Email*</ion-label>
-      <ion-input name="email" type="text"></ion-input>
-    </ion-item>
-    <ion-list radio-group name="tipo">
-      <ion-list-header>
-        Tipo de cliente
-      </ion-list-header>
-      <ion-item>
-        <ion-label>Pessoa física</ion-label>
-        <ion-radio checked="true" value="1"></ion-radio>
-      </ion-item>
-      <ion-item>
-        <ion-label>Pessoa jurídica</ion-label>
-        <ion-radio value="2"></ion-radio>
-      </ion-item>
-    </ion-list>
 
     <ion-item>
-      <ion-label stacked>CPF ou CNPJ</ion-label>
-      <ion-input name="cpfOuCnpj" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Senha*</ion-label>
-      <ion-input name="senha" type="password"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Logradouro*</ion-label>
-      <ion-input name="logradouro" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Número*</ion-label>
-      <ion-input name="numero" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Complemento</ion-label>
-      <ion-input name="complemento" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Bairro</ion-label>
-      <ion-input name="bairro" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>CEP*</ion-label>
-      <ion-input name="cep" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Telefone 1*</ion-label>
-      <ion-input name="telefone1" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Telefone 2</ion-label>
-      <ion-input name="telefone2" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Telefone 3</ion-label>
-      <ion-input name="telefone3" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Estado*</ion-label>
-      <ion-select name="estadoId" (ionChange)="updateCidades()">
-        <ion-option value="1">Minas Gerais</ion-option>
-        <ion-option value="2">São Paulo</ion-option>
+      <ion-label stacked>Trecho*</ion-label>
+      <ion-select formControlName="trechoId" (ionChange)="updateLotes()">
+        <ion-option value="1">FIOL 1</ion-option>
+        <ion-option value="2">FIOL 2</ion-option>
       </ion-select>
     </ion-item>
+
     <ion-item>
-      <ion-label stacked>Cidade*</ion-label>
-      <ion-select name="cidadeId">
-        <ion-option value="1">Uberlândia</ion-option>
-        <ion-option value="2">Campinas</ion-option>
+      <ion-label stacked>Lote*</ion-label>
+      <ion-select formControlName="loteId">
+        <ion-option value="1">LOTE 5A</ion-option>
+        <ion-option value="2">LOTE 6</ion-option>
       </ion-select>
     </ion-item>
-    <button ion-button block type="submit">Criar conta</button>
+
+    <ion-item>
+      <ion-label stacked>KM Inicial*</ion-label>
+      <ion-input formControlName="kmInicial" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>KM Final*</ion-label>
+      <ion-input formControlName="kmFinal" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Data de Registro*</ion-label>
+      <ion-input formControlName="dataRegistro" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Localização</ion-label>
+      <ion-select formControlName="localizacaoId">
+        <ion-option value="">Selecionar</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Tipo*</ion-label>
+      <ion-select formControlName="tipoOcorrenciaId">
+        <ion-option value="">Selecionar</ion-option>
+        <ion-option value="">Faixa de Domínio</ion-option>
+        <ion-option value="">Contaminação e Poluição</ion-option>
+        <ion-option value="">Sistema de Drenagem</ion-option>
+        <ion-option value="">Licenças/Outorgas</ion-option>
+        <ion-option value="">Saúde e Segurança no Trabalho</ion-option>
+        <ion-option value="">Áreas Degradadas</ion-option>
+        <ion-option value="">Supressão Vegetal</ion-option>
+        <ion-option value="">Impactos à Fauna Silvestre</ion-option>
+        <ion-option value="">Plantios e Revestimento Vegetal</ion-option>
+        <ion-option value="">Desmobilização</ion-option>
+        <ion-option value="">Erosão/Assoreamento</ion-option>
+        <ion-option value="">Danos ao Patrimônio Espeleológico</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Gravidade*</ion-label>
+      <ion-select formControlName="gravidade">
+        <ion-option value="">Selecionar</ion-option>
+        <ion-option value="A">Alta</ion-option>
+        <ion-option value="B">Média</ion-option>
+        <ion-option value="C">Baixa</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Situação do Empreendimento*</ion-label>
+      <ion-select formControlName="situacao">
+        <ion-option value="">Selecionar</ion-option>
+        <ion-option value="O">Em Operação</ion-option>
+        <ion-option value="A">Obras em Andamento</ion-option>
+        <ion-option value="P">Obras Paralisadas</ion-option>
+        <ion-option value="C">Obras Concluídas</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>PBA*</ion-label>
+      <ion-select formControlName="topicoPBAId">
+        <ion-option value="">Programa XY</ion-option>
+        <ion-option value="">Programa 2</ion-option>
+        <ion-option value="">Programa 3</ion-option>
+        <ion-option value="">Programa 4</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Lado*</ion-label>
+      <ion-select formControlName="tipoLado">
+        <ion-option value="">Selecionar</ion-option>
+        <ion-option value="D">Lado Direito</ion-option>
+        <ion-option value="E">Lado Esquerdo</ion-option>
+        <ion-option value="A">Lado Direito e Esquerdo</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Descrição*</ion-label>
+      <ion-textarea formControlName="descricao" maxlength="1000" rows="4"></ion-textarea>
+    </ion-item>
+
+    <button ion-button block type="submit">Criar Ocorrência</button>
   </form>
 </ion-content>
