@@ -24,7 +24,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: 'HomePage' },
-      { title: 'Home', component: 'OcorrenciasPage' },
+      { title: 'Ocorrencias', component: 'OcorrenciasPage' },
+      { title: 'Cadastrar', component: 'OcorrenciaCriarPage' },
       { title: 'Logout', component: '' }
     ];
 
@@ -44,6 +45,10 @@ export class MyApp {
       case 'Logout' : 
       this.auth.logout();
       this.nav.setRoot('HomePage');
+      break;
+
+      case 'Cadastrar' : 
+      this.nav.setRoot(page.component);
       break;
 
       default:
