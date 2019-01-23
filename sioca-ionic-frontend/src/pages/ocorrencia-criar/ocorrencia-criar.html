@@ -8,11 +8,25 @@
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="formGroup" (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
-    
+  <form [formGroup]="formGroup" (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
+
     <ion-item>
       <ion-label stacked>Número único*</ion-label>
       <ion-input formControlName="codigoOcorrencia" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>UF*</ion-label>
+      <ion-select formControlName="ufId" (ionChange)="updateMunicipios()">
+        <ion-option *ngFor="let uf of ufs; first as f" [value]="uf.id" [selected]="f">{{uf.sigla}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Municipio*</ion-label>
+      <ion-select formControlName="municipioId">
+          <ion-option *ngFor="let municipio of municipios" [value]="municipio.id">{{municipio.nome}}</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>

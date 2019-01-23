@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MunicipioService } from '../../services/domain/municipio.service';
+import { UfService } from '../../services/domain/uf.service';
+import { UfDTO } from '../../models/uf.dto';
+import { MunicipioDTO } from '../../models/municipio.dto';
 
 @IonicPage()
 @Component({
@@ -10,15 +14,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class OcorrenciaCriarPage {
 
   formGroup: FormGroup;
+  ufs: UfDTO[];
+  municipios: MunicipioDTO[];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    public municipioService: MunicipioService,
+    public ufService: UfService) {
 
       this.formGroup = this.formBuilder.group({
         //codigoOcorrencia: ['',[Validators.required, Validators.min(5), Validators.maxLength(120)]],
         codigoOcorrencia: ['',[]],
+        ufId: [null,[]],
+        municipioId: [null,[]],
         trechoId: [null,[]],
         loteId: [null,[]],
         kmInicial: ['',[]],
@@ -35,7 +45,21 @@ export class OcorrenciaCriarPage {
   }
 
   ionViewDidLoad() {
-    console.log('Entrei na pagina  OcorrenciaCriarPage');
+    this.ufService.findAll().subscribe(response => {
+      this.ufs = response;
+      this.formGroup.controls.ufId.setValue(this.ufs[0].id);
+      this.updateMunicipios();
+    },
+    error =>{});
+  }
+
+  updateMunicipios() {
+    let estadoId = this.formGroup.value.ufId;
+    this.municipioService.findAll(estadoId).subscribe(response => {
+      this.municipios = response;
+      this.formGroup.controls.municipioId.setValue(null);
+    },
+    error =>{});
   }
 
   cadastrarOcorrencia() {
