@@ -11,37 +11,21 @@
   <form [formGroup]="formGroup" (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
 
     <ion-item>
-      <ion-label stacked>Número único*</ion-label>
-      <ion-input formControlName="codigoOcorrencia" type="text"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label stacked>UF*</ion-label>
-      <ion-select formControlName="ufId" (ionChange)="updateMunicipios()">
-        <ion-option *ngFor="let uf of ufs; first as f" [value]="uf.id" [selected]="f">{{uf.sigla}}</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label stacked>Municipio*</ion-label>
-      <ion-select formControlName="municipioId">
-          <ion-option *ngFor="let municipio of municipios" [value]="municipio.id">{{municipio.nome}}</ion-option>
-      </ion-select>
+      <ion-label stacked>Número único</ion-label>
+      <ion-input formControlName="codigoOcorrencia" type="text" value="000000.0000.00-00-00" disabled="true"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Trecho*</ion-label>
       <ion-select formControlName="trechoId" (ionChange)="updateLotes()">
-        <ion-option value="1">FIOL 1</ion-option>
-        <ion-option value="2">FIOL 2</ion-option>
+        <ion-option *ngFor="let trecho of trechos; first as f" [value]="trecho.id" [selected]="f">{{trecho.trechoEmpreendimento}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Lote*</ion-label>
       <ion-select formControlName="loteId">
-        <ion-option value="1">LOTE 5A</ion-option>
-        <ion-option value="2">LOTE 6</ion-option>
+        <ion-option *ngFor="let lote of lotes" [value]="lote.id">{{lote.codigo}}</ion-option>
       </ion-select>
     </ion-item>
 
@@ -63,26 +47,14 @@
     <ion-item>
       <ion-label stacked>Localização</ion-label>
       <ion-select formControlName="localizacaoId">
-        <ion-option value="">Selecionar</ion-option>
+        <ion-option *ngFor="let localizacao of localizacoes; first as f" [value]="localizacao.id" [selected]="f">{{localizacao.nome}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Tipo*</ion-label>
       <ion-select formControlName="tipoOcorrenciaId">
-        <ion-option value="">Selecionar</ion-option>
-        <ion-option value="">Faixa de Domínio</ion-option>
-        <ion-option value="">Contaminação e Poluição</ion-option>
-        <ion-option value="">Sistema de Drenagem</ion-option>
-        <ion-option value="">Licenças/Outorgas</ion-option>
-        <ion-option value="">Saúde e Segurança no Trabalho</ion-option>
-        <ion-option value="">Áreas Degradadas</ion-option>
-        <ion-option value="">Supressão Vegetal</ion-option>
-        <ion-option value="">Impactos à Fauna Silvestre</ion-option>
-        <ion-option value="">Plantios e Revestimento Vegetal</ion-option>
-        <ion-option value="">Desmobilização</ion-option>
-        <ion-option value="">Erosão/Assoreamento</ion-option>
-        <ion-option value="">Danos ao Patrimônio Espeleológico</ion-option>
+        <ion-option *ngFor="let tipoOcorrencia of tipoOcorrencias; first as f" [value]="tipoOcorrencia.id" [selected]="f">{{tipoOcorrencia.descricao}}</ion-option>
       </ion-select>
     </ion-item>
 
@@ -110,10 +82,7 @@
     <ion-item>
       <ion-label stacked>PBA*</ion-label>
       <ion-select formControlName="topicoPBAId">
-        <ion-option value="">Programa XY</ion-option>
-        <ion-option value="">Programa 2</ion-option>
-        <ion-option value="">Programa 3</ion-option>
-        <ion-option value="">Programa 4</ion-option>
+        <ion-option *ngFor="let topicopba of topicospba; first as f" [value]="topicopba.id" [selected]="f">{{topicopba.descricao}}</ion-option>
       </ion-select>
     </ion-item>
 

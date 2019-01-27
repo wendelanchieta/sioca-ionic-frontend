@@ -7,4 +7,5 @@ export interface TrechoDTO {
 	nomeEmpreendimento: string;
 	lotes: LoteDTO[];
 	empreendimento: EmpreendimentoDTO;
+	trechoEmpreendimento: string;
 }
