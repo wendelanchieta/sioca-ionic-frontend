@@ -18,7 +18,7 @@
     <ion-item>
       <ion-label stacked>Trecho*</ion-label>
       <ion-select formControlName="trechoId" (ionChange)="updateLotes()">
-        <ion-option *ngFor="let trecho of trechos; first as f" [value]="trecho.id" [selected]="f">{{trecho.trechoEmpreendimento}}</ion-option>
+        <ion-option *ngFor="let trecho of trechos; second as f" [value]="trecho.id" [selected]="f">{{trecho.trechoEmpreendimento}}</ion-option>
       </ion-select>
     </ion-item>
 
@@ -40,9 +40,9 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Data de Registro*</ion-label>
-      <ion-input formControlName="dataRegistro" type="text"></ion-input>
-    </ion-item>
+        <ion-label stacked>Data de Registro*</ion-label>
+        <ion-datetime pickerFormat="DD MM YYYY"  displayFormat="DD/MM/YYYY" formControlName="dataRegistro" type="text"></ion-datetime>
+      </ion-item>
 
     <ion-item>
       <ion-label stacked>Localização</ion-label>
@@ -61,19 +61,17 @@
     <ion-item>
       <ion-label stacked>Gravidade*</ion-label>
       <ion-select formControlName="gravidade">
-        <ion-option value="">Selecionar</ion-option>
         <ion-option value="A">Alta</ion-option>
         <ion-option value="B">Média</ion-option>
-        <ion-option value="C">Baixa</ion-option>
+        <ion-option value="C" selected=true>Baixa</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Situação do Empreendimento*</ion-label>
       <ion-select formControlName="situacao">
-        <ion-option value="">Selecionar</ion-option>
         <ion-option value="O">Em Operação</ion-option>
-        <ion-option value="A">Obras em Andamento</ion-option>
+        <ion-option value="A" selected=true>Obras em Andamento</ion-option>
         <ion-option value="P">Obras Paralisadas</ion-option>
         <ion-option value="C">Obras Concluídas</ion-option>
       </ion-select>
@@ -89,12 +87,19 @@
     <ion-item>
       <ion-label stacked>Lado*</ion-label>
       <ion-select formControlName="tipoLado">
-        <ion-option value="">Selecionar</ion-option>
         <ion-option value="D">Lado Direito</ion-option>
         <ion-option value="E">Lado Esquerdo</ion-option>
-        <ion-option value="A">Lado Direito e Esquerdo</ion-option>
+        <ion-option value="A"  selected=true>Lado Direito e Esquerdo</ion-option>
       </ion-select>
     </ion-item>
+
+    <ion-item>
+        <ion-label stacked>Emergencial*</ion-label>
+        <ion-select formControlName="emergencial">
+          <ion-option value="N" selected=true>Não</ion-option>
+          <ion-option value="S">Sim</ion-option>
+        </ion-select>
+      </ion-item>
 
     <ion-item>
       <ion-label stacked>Descrição*</ion-label>
