@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { LocalizacaoDTO } from '../../models/localizacao.dto';
 import { LoteDTO } from '../../models/lote.dto';
 import { MunicipioDTO } from '../../models/municipio.dto';
@@ -16,6 +16,7 @@ import { TipoOcorrenciaService } from '../../services/domain/tipoocorrencia.serv
 import { TopicopbaService } from '../../services/domain/topicopba.service';
 import { TrechoService } from '../../services/domain/trecho.service';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { RecomendacoesDTO } from '../../models/recomendacao.dto';
 
 @IonicPage()
 @Component({
@@ -33,6 +34,9 @@ export class OcorrenciaCriarPage {
   localizacoes: LocalizacaoDTO[];
   tipoOcorrencias: TipoOcorrenciaDTO[];
   topicospba: TopicopbaDTO[];
+  recomendacoes: RecomendacoesDTO[];
+
+  ocorrenciaSegment: string;
 
   constructor(
     public navCtrl: NavController,
@@ -44,7 +48,10 @@ export class OcorrenciaCriarPage {
     public tipoOcorrenciaService: TipoOcorrenciaService,
     public topicopbaService: TopicopbaService,
     public ocorrenciaService: OcorrenciaService,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController) {
+
+    this.ocorrenciaSegment = 'dados';
 
     this.formGroup = this.formBuilder.group({
       //codigoOcorrencia: ['',[Validators.required, Validators.min(5), Validators.maxLength(120)]],
@@ -61,7 +68,8 @@ export class OcorrenciaCriarPage {
       topicoPBAId: [null, []],
       tipoLado: [null, []],
       emergencial: ['', []],
-      descricao: ['', []]
+      descricao: ['', []],
+      recomendacoes: [this.recomendacoes,[]]
     });
   }
 
@@ -104,11 +112,14 @@ export class OcorrenciaCriarPage {
 
   carregarOcorrencia() {
     let oc = <OcorrenciaDTO>{}
+    let recomendacoes = <RecomendacoesDTO[]>{};
     oc.lote = <LoteDTO>{};
     oc.lote.trecho = <TrechoDTO>{};
     oc.localizacao = <LocalizacaoDTO>{};
     oc.tipoOcorrencia = <TipoOcorrenciaDTO>{}
     oc.topicoPBA = <TopicopbaDTO>{};
+    oc.recomendacoes = recomendacoes;
+
 
 
     oc.codigoOcorrencia = this.formGroup.controls.codigoOcorrencia.value;
@@ -125,7 +136,7 @@ export class OcorrenciaCriarPage {
     oc.tipoLado = this.formGroup.controls.tipoLado.value;
     oc.emergencial = this.formGroup.controls.emergencial.value;
     oc.descricao = this.formGroup.controls.descricao.value;
-        
+
     this.ocorrencia = oc;
   }
 
@@ -134,6 +145,8 @@ export class OcorrenciaCriarPage {
     console.log('Cadastrando ocorrencia...');
     this.ocorrenciaService.insert(this.ocorrencia).subscribe(response => {
       console.log(response.headers.get('location'));
+      //this.showInsertOkToast()
+      this.showInsertOk();
     },
       error => {
         console.log(error);
@@ -152,12 +165,20 @@ export class OcorrenciaCriarPage {
         {
           text: 'Ok',
           handler: () => {
-            this.navCtrl.pop();
+
           }
         }
       ]
     });
     alert.present();
+  }
+
+  showInsertOkToast() {
+    const toast = this.toastCtrl.create({
+      message: 'Cadastro efetuado com sucesso',
+      duration: 3000
+    });
+    toast.present();
   }
 
 }

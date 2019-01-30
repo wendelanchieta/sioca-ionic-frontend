@@ -8,103 +8,178 @@
 </ion-header>
 
 <ion-content padding>
+
   <form [formGroup]="formGroup" (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
 
-    <ion-item>
-      <ion-label stacked>Número único</ion-label>
-      <ion-input formControlName="codigoOcorrencia" type="text" value="000000.0000.00-00-00" disabled="true"></ion-input>
-    </ion-item>
+    <div padding>
+      <ion-segment [(ngModel)]="ocorrenciaSegment" [ngModelOptions]="{standalone: true}">
+        <ion-segment-button value="dados">
+          <ion-icon name="clipboard"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="comentario" alt="Comentário">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="justificativa">
+          <ion-icon name="quote"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="geo">
+          <ion-icon name="pin"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="foto">
+          <ion-icon name="images"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 
-    <ion-item>
-      <ion-label stacked>Trecho*</ion-label>
-      <ion-select formControlName="trechoId" (ionChange)="updateLotes()">
-        <ion-option *ngFor="let trecho of trechos; second as f" [value]="trecho.id" [selected]="f">{{trecho.trechoEmpreendimento}}</ion-option>
-      </ion-select>
-    </ion-item>
+    <div [ngSwitch]="ocorrenciaSegment">
+      <ion-list *ngSwitchCase="'dados'">
 
-    <ion-item>
-      <ion-label stacked>Lote*</ion-label>
-      <ion-select formControlName="loteId">
-        <ion-option *ngFor="let lote of lotes" [value]="lote.id">{{lote.codigo}}</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Número único</ion-label>
+          <ion-input formControlName="codigoOcorrencia" type="text" value="000000.0000.00-00-00" disabled="true"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>KM Inicial*</ion-label>
-      <ion-input formControlName="kmInicial" type="text"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Trecho*</ion-label>
+          <ion-select formControlName="trechoId" (ionChange)="updateLotes()">
+            <ion-option *ngFor="let trecho of trechos; second as f" [value]="trecho.id" [selected]="f">{{trecho.trechoEmpreendimento}}</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>KM Final*</ion-label>
-      <ion-input formControlName="kmFinal" type="text"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Lote*</ion-label>
+          <ion-select formControlName="loteId">
+            <ion-option *ngFor="let lote of lotes" [value]="lote.id">{{lote.codigo}}</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-        <ion-label stacked>Data de Registro*</ion-label>
-        <ion-datetime pickerFormat="DD MM YYYY"  displayFormat="DD/MM/YYYY" formControlName="dataRegistro" type="text"></ion-datetime>
-      </ion-item>
+        <ion-item>
+          <ion-label stacked>KM Inicial*</ion-label>
+          <ion-input formControlName="kmInicial" type="text"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Localização</ion-label>
-      <ion-select formControlName="localizacaoId">
-        <ion-option *ngFor="let localizacao of localizacoes; first as f" [value]="localizacao.id" [selected]="f">{{localizacao.nome}}</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>KM Final*</ion-label>
+          <ion-input formControlName="kmFinal" type="text"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Tipo*</ion-label>
-      <ion-select formControlName="tipoOcorrenciaId">
-        <ion-option *ngFor="let tipoOcorrencia of tipoOcorrencias; first as f" [value]="tipoOcorrencia.id" [selected]="f">{{tipoOcorrencia.descricao}}</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Data de Registro*</ion-label>
+          <ion-datetime pickerFormat="DD MM YYYY" displayFormat="DD/MM/YYYY" formControlName="dataRegistro" type="text"></ion-datetime>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Gravidade*</ion-label>
-      <ion-select formControlName="gravidade">
-        <ion-option value="A">Alta</ion-option>
-        <ion-option value="B">Média</ion-option>
-        <ion-option value="C" selected=true>Baixa</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Localização</ion-label>
+          <ion-select formControlName="localizacaoId">
+            <ion-option *ngFor="let localizacao of localizacoes; first as f" [value]="localizacao.id" [selected]="f">{{localizacao.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Situação do Empreendimento*</ion-label>
-      <ion-select formControlName="situacao">
-        <ion-option value="O">Em Operação</ion-option>
-        <ion-option value="A" selected=true>Obras em Andamento</ion-option>
-        <ion-option value="P">Obras Paralisadas</ion-option>
-        <ion-option value="C">Obras Concluídas</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Tipo*</ion-label>
+          <ion-select formControlName="tipoOcorrenciaId">
+            <ion-option *ngFor="let tipoOcorrencia of tipoOcorrencias; first as f" [value]="tipoOcorrencia.id"
+              [selected]="f">{{tipoOcorrencia.descricao}}</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>PBA*</ion-label>
-      <ion-select formControlName="topicoPBAId">
-        <ion-option *ngFor="let topicopba of topicospba; first as f" [value]="topicopba.id" [selected]="f">{{topicopba.descricao}}</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Gravidade*</ion-label>
+          <ion-select formControlName="gravidade">
+            <ion-option value="A">Alta</ion-option>
+            <ion-option value="B">Média</ion-option>
+            <ion-option value="C" selected=true>Baixa</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Lado*</ion-label>
-      <ion-select formControlName="tipoLado">
-        <ion-option value="D">Lado Direito</ion-option>
-        <ion-option value="E">Lado Esquerdo</ion-option>
-        <ion-option value="A"  selected=true>Lado Direito e Esquerdo</ion-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Situação do Empreendimento*</ion-label>
+          <ion-select formControlName="situacao">
+            <ion-option value="O">Em Operação</ion-option>
+            <ion-option value="A" selected=true>Obras em Andamento</ion-option>
+            <ion-option value="P">Obras Paralisadas</ion-option>
+            <ion-option value="C">Obras Concluídas</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-        <ion-label stacked>Emergencial*</ion-label>
-        <ion-select formControlName="emergencial">
-          <ion-option value="N" selected=true>Não</ion-option>
-          <ion-option value="S">Sim</ion-option>
-        </ion-select>
-      </ion-item>
+        <ion-item>
+          <ion-label stacked>PBA*</ion-label>
+          <ion-select formControlName="topicoPBAId">
+            <ion-option *ngFor="let topicopba of topicospba; first as f" [value]="topicopba.id" [selected]="f">{{topicopba.descricao}}</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Descrição*</ion-label>
-      <ion-textarea formControlName="descricao" maxlength="1000" rows="4"></ion-textarea>
-    </ion-item>
+        <ion-item>
+          <ion-label stacked>Lado*</ion-label>
+          <ion-select formControlName="tipoLado">
+            <ion-option value="D">Lado Direito</ion-option>
+            <ion-option value="E">Lado Esquerdo</ion-option>
+            <ion-option value="A" selected=true>Lado Direito e Esquerdo</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Emergencial*</ion-label>
+          <ion-select formControlName="emergencial">
+            <ion-option value="N" selected=true>Não</ion-option>
+            <ion-option value="S">Sim</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Descrição*</ion-label>
+          <ion-textarea formControlName="descricao" maxlength="1000" rows="4"></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'comentario'">
+        <ion-item>
+          <ion-card>
+            <ion-card-header>
+              <ion-icon name="contact"></ion-icon>
+              Comentário
+            </ion-card-header>
+            <ion-card-content>
+              Isso é um teste de comentário!
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+        ...
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'justificativa'">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/imgs/no-img.jpg">
+          </ion-thumbnail>
+          <h2>Luna</h2>
+        </ion-item>
+        ...
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'geo'">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/imgs/no-img.jpg">
+          </ion-thumbnail>
+          <h2>Luna</h2>
+        </ion-item>
+        ...
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'foto'">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/imgs/no-img.jpg">
+          </ion-thumbnail>
+          <h2>Luna</h2>
+        </ion-item>
+        ...
+      </ion-list>
+    </div>
+
+
 
     <button ion-button block type="submit">Criar Ocorrência</button>
   </form>
