@@ -34,7 +34,7 @@ export class OcorrenciaCriarPage {
   localizacoes: LocalizacaoDTO[];
   tipoOcorrencias: TipoOcorrenciaDTO[];
   topicospba: TopicopbaDTO[];
-  recomendacoes: RecomendacoesDTO[];
+  recomendacoes: RecomendacoesDTO[]=<RecomendacoesDTO[]>{};
 
   ocorrenciaSegment: string;
 
@@ -69,7 +69,7 @@ export class OcorrenciaCriarPage {
       tipoLado: [null, []],
       emergencial: ['', []],
       descricao: ['', []],
-      recomendacoes: [this.recomendacoes,[]]
+      recomendacao: ['',[]]
     });
   }
 

@@ -145,17 +145,28 @@
             </ion-card-content>
           </ion-card>
         </ion-item>
-        ...
+        <ion-item>
+          <ion-label stacked>Recomendação</ion-label>
+          <ion-textarea name="descricao" maxlength="1000" rows="4" value="Registrando uma Recomendação"></ion-textarea>
+        </ion-item>
       </ion-list>
 
       <ion-list *ngSwitchCase="'justificativa'">
         <ion-item>
-          <ion-thumbnail item-start>
-            <img src="assets/imgs/no-img.jpg">
-          </ion-thumbnail>
-          <h2>Luna</h2>
+          <ion-card>
+            <ion-card-header>
+              <ion-icon name="contact"></ion-icon>
+              Justificativa
+            </ion-card-header>
+            <ion-card-content>
+              Isso é um teste de justificativa!
+            </ion-card-content>
+          </ion-card>
         </ion-item>
-        ...
+        <ion-item>
+          <ion-label stacked>Justificativa</ion-label>
+          <ion-textarea name="descricao" maxlength="1000" rows="4" value="Registrando uma Justificativa"></ion-textarea>
+        </ion-item>
       </ion-list>
 
       <ion-list *ngSwitchCase="'geo'">
@@ -170,12 +181,21 @@
 
       <ion-list *ngSwitchCase="'foto'">
         <ion-item>
-          <ion-thumbnail item-start>
-            <img src="assets/imgs/no-img.jpg">
-          </ion-thumbnail>
-          <h2>Luna</h2>
+          <ion-slides>
+            <ion-slide>
+              <h1>Animais na Via</h1>
+              <img src="assets/imgs/animais-via.jpg">
+            </ion-slide>
+            <ion-slide>
+              <h1>Trabalhadores na via</h1>
+              <img src="assets/imgs/trabalhadores-via.jpg">
+            </ion-slide>
+            <ion-slide>
+              <h1>Construção de talude</h1>
+              <img src="assets/imgs/construcao-talude.jpg">
+            </ion-slide>
+          </ion-slides>
         </ion-item>
-        ...
       </ion-list>
     </div>
 
