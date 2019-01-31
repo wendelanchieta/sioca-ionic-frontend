@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Platform, LoadingController } from 'ionic-angular';
 import { LocalizacaoDTO } from '../../models/localizacao.dto';
 import { LoteDTO } from '../../models/lote.dto';
 import { MunicipioDTO } from '../../models/municipio.dto';
@@ -17,6 +17,7 @@ import { TopicopbaService } from '../../services/domain/topicopba.service';
 import { TrechoService } from '../../services/domain/trecho.service';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { RecomendacoesDTO } from '../../models/recomendacao.dto';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @IonicPage()
 @Component({
@@ -34,7 +35,6 @@ export class OcorrenciaCriarPage {
   localizacoes: LocalizacaoDTO[];
   tipoOcorrencias: TipoOcorrenciaDTO[];
   topicospba: TopicopbaDTO[];
-  recomendacoes: RecomendacoesDTO[]=<RecomendacoesDTO[]>{};
 
   ocorrenciaSegment: string;
 
@@ -49,7 +49,10 @@ export class OcorrenciaCriarPage {
     public topicopbaService: TopicopbaService,
     public ocorrenciaService: OcorrenciaService,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
+    public platform: Platform,
+    private geolocation: Geolocation) {
 
     this.ocorrenciaSegment = 'dados';
 
@@ -69,57 +72,70 @@ export class OcorrenciaCriarPage {
       tipoLado: [null, []],
       emergencial: ['', []],
       descricao: ['', []],
-      recomendacao: ['',[]]
+      recomendacao: ['', []]
     });
+
   }
 
+
+
   ionViewDidLoad() {
+    let loader = this.presentLoading();
     this.trechoService.findAll().subscribe(response => {
       this.trechos = response;
       this.formGroup.controls.trechoId.setValue(this.trechos[0].id);
       this.updateLotes();
     },
-      error => { });
+      error => { 
+        loader.dismiss();
+      });
 
     this.localizacaoService.findAll().subscribe(response => {
       this.localizacoes = response;
       this.formGroup.controls.localizacaoId.setValue(this.localizacoes[0].id);
     },
-      error => { });
+      error => {
+        loader.dismiss();
+       });
 
     this.tipoOcorrenciaService.findAll().subscribe(response => {
       this.tipoOcorrencias = response;
       this.formGroup.controls.tipoOcorrenciaId.setValue(this.tipoOcorrencias[0].id);
     },
-      error => { });
+      error => { 
+        loader.dismiss();
+      });
 
     this.topicopbaService.findAll().subscribe(response => {
       this.topicospba = response;
       this.formGroup.controls.topicoPBAId.setValue(this.topicospba[0].id);
     },
-      error => { });
-
+      error => { 
+        loader.dismiss();
+      });
+    loader.dismiss();
   }
 
   updateLotes() {
+    let loader = this.presentLoading();
     let trechoId = this.formGroup.value.trechoId;
     this.loteService.findAll(trechoId).subscribe(response => {
       this.lotes = response;
       this.formGroup.controls.loteId.setValue(null);
+      loader.dismiss();
     },
-      error => { });
+      error => {
+        loader.dismiss();
+      });
   }
 
   carregarOcorrencia() {
     let oc = <OcorrenciaDTO>{}
-    let recomendacoes = <RecomendacoesDTO[]>{};
     oc.lote = <LoteDTO>{};
     oc.lote.trecho = <TrechoDTO>{};
     oc.localizacao = <LocalizacaoDTO>{};
     oc.tipoOcorrencia = <TipoOcorrenciaDTO>{}
     oc.topicoPBA = <TopicopbaDTO>{};
-    oc.recomendacoes = recomendacoes;
-
 
 
     oc.codigoOcorrencia = this.formGroup.controls.codigoOcorrencia.value;
@@ -143,13 +159,16 @@ export class OcorrenciaCriarPage {
   cadastrarOcorrencia() {
     this.carregarOcorrencia();
     console.log('Cadastrando ocorrencia...');
+    let loader = this.presentLoading();
     this.ocorrenciaService.insert(this.ocorrencia).subscribe(response => {
       console.log(response.headers.get('location'));
       //this.showInsertOkToast()
       this.showInsertOk();
+      loader.dismiss();
     },
       error => {
         console.log(error);
+        loader.dismiss();
         if (error.status == 403) {
           this.navCtrl.setRoot('HomePage');
         }
@@ -179,6 +198,24 @@ export class OcorrenciaCriarPage {
       duration: 3000
     });
     toast.present();
+  }
+
+  presentLoading() {
+    let loader = this.loadingCtrl.create({
+      content: "Aguarde..."
+    });
+    loader.present();
+    return loader;
+  }
+
+  getGeo() {
+    console.log('Passei no GEO...');
+    this.geolocation.getCurrentPosition().then((resp) => {
+      console.log('Latitude', resp.coords.latitude);
+      console.log('Latitude', resp.coords.longitude);
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
   }
 
 }

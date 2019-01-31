@@ -1,5 +1,7 @@
 {
   "name": "sioca-ionic-frontend",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

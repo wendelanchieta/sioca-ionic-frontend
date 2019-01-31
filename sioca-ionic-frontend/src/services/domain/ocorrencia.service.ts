@@ -10,8 +10,8 @@ export class OcorrenciaService {
     constructor(public http: HttpClient) {
     }
 
-    findAll(): Observable<OcorrenciaDTO[]> {
-        return this.http.get<OcorrenciaDTO[]>(`${API_CONFIG.baseUrl}/ocorrencias/page`);
+    findAll(page : number = 0, linesPerPage : number = 24): Observable<OcorrenciaDTO[]> {
+        return this.http.get<OcorrenciaDTO[]>(`${API_CONFIG.baseUrl}/ocorrencias/page/?page=${page}&linesPerPage=${linesPerPage}`);
     }
 
     insert(obj: OcorrenciaDTO) {
