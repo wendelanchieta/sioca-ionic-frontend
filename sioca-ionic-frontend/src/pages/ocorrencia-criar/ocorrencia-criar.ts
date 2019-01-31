@@ -18,6 +18,7 @@ import { TrechoService } from '../../services/domain/trecho.service';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { RecomendacoesDTO } from '../../models/recomendacao.dto';
 import { Geolocation } from '@ionic-native/geolocation';
+import { CameraOptions, Camera } from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,10 @@ import { Geolocation } from '@ionic-native/geolocation';
   templateUrl: 'ocorrencia-criar.html',
 })
 export class OcorrenciaCriarPage {
+
+  picture: string;
+  cameraOn: boolean = false;
+  ocorrenciaSegment: string;
 
   ocorrencia: OcorrenciaDTO;
   formGroup: FormGroup;
@@ -35,8 +40,6 @@ export class OcorrenciaCriarPage {
   localizacoes: LocalizacaoDTO[];
   tipoOcorrencias: TipoOcorrenciaDTO[];
   topicospba: TopicopbaDTO[];
-
-  ocorrenciaSegment: string;
 
   constructor(
     public navCtrl: NavController,
@@ -52,7 +55,8 @@ export class OcorrenciaCriarPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public platform: Platform,
-    private geolocation: Geolocation) {
+    public geolocation: Geolocation,
+    public camera: Camera) {
 
     this.ocorrenciaSegment = 'dados';
 
@@ -86,7 +90,7 @@ export class OcorrenciaCriarPage {
       this.formGroup.controls.trechoId.setValue(this.trechos[0].id);
       this.updateLotes();
     },
-      error => { 
+      error => {
         loader.dismiss();
       });
 
@@ -96,13 +100,13 @@ export class OcorrenciaCriarPage {
     },
       error => {
         loader.dismiss();
-       });
+      });
 
     this.tipoOcorrenciaService.findAll().subscribe(response => {
       this.tipoOcorrencias = response;
       this.formGroup.controls.tipoOcorrenciaId.setValue(this.tipoOcorrencias[0].id);
     },
-      error => { 
+      error => {
         loader.dismiss();
       });
 
@@ -110,7 +114,7 @@ export class OcorrenciaCriarPage {
       this.topicospba = response;
       this.formGroup.controls.topicoPBAId.setValue(this.topicospba[0].id);
     },
-      error => { 
+      error => {
         loader.dismiss();
       });
     loader.dismiss();
@@ -218,4 +222,21 @@ export class OcorrenciaCriarPage {
     });
   }
 
+  getCameraPicture() {
+
+    this.cameraOn = true;
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.picture = 'data:image/png;base64,' + imageData;
+      this.cameraOn = false;
+    }, (err) => {
+    });
+  }
 }
