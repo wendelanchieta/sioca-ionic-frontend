@@ -26,6 +26,7 @@ export class MyApp {
       { title: 'Home', component: 'HomePage' },
       { title: 'Buscar', component: 'OcorrenciasPage' },
       { title: 'Cadastrar', component: 'OcorrenciaCriarPage' },
+      { title: 'Sincronizar', component: 'OcorrenciaSincronizarPage' },
       { title: 'Logout', component: '' }
     ];
 

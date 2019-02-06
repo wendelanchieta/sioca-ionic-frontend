@@ -41,4 +41,13 @@ export class AuthService {
     logout() {
         this.storage.setLocalUser(null);
     }
+
+    userHasLoged() : boolean{
+        if(this.storage.getLocalUser() != null){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 }

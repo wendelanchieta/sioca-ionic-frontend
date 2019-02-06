@@ -16,7 +16,6 @@ import { TipoOcorrenciaService } from '../../services/domain/tipoocorrencia.serv
 import { TopicopbaService } from '../../services/domain/topicopba.service';
 import { TrechoService } from '../../services/domain/trecho.service';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
-import { RecomendacoesDTO } from '../../models/recomendacao.dto';
 import { Geolocation } from '@ionic-native/geolocation';
 import { CameraOptions, Camera } from '@ionic-native/camera';
 
