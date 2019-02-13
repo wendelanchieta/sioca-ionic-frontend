@@ -3,7 +3,7 @@
     <name>Sioca</name>
     <description>SISTEMA INTEGRADO DE CARACTERIZAÇÃO AMBIENTAL</description>
     <author email="wendelanchieta@gmail.com" href="https://www.linkedin.com/in/wendel-anchieta-33742118/">Wendel Anchieta</author>
-    <content original-src="index.html" src="http://10.61.51.161:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

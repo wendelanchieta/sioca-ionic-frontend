@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the OcorrenciaDetalhePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { OcorrenciaService } from '../../services/domain/ocorrencia.service';
+import { OcorrenciaDTO } from '../../models/ocorrencias.dto';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class OcorrenciaDetalhePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  ocorrencia: OcorrenciaDTO;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public ocorrenciaService: OcorrenciaService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OcorrenciaDetalhePage');
+    let ocorrenciaId = this.navParams.get('ocorrenciaId');
+    this.ocorrenciaService.findById(ocorrenciaId).subscribe(response => {
+      this.ocorrencia = response;
+    },
+      error => {
+        console.log(error);
+      });
   }
 
 }

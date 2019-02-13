@@ -14,6 +14,10 @@ export class OcorrenciaService {
         return this.http.get<OcorrenciaDTO[]>(`${API_CONFIG.baseUrl}/ocorrencias/page/?page=${page}&linesPerPage=${linesPerPage}`);
     }
 
+    findById(ocorrenciaId: number): Observable<OcorrenciaDTO> {
+        return this.http.get<OcorrenciaDTO>(`${API_CONFIG.baseUrl}/ocorrencias/${ocorrenciaId}`);
+    }
+
     insert(obj: OcorrenciaDTO) {
         return this.http.post(`${API_CONFIG.baseUrl}/ocorrencias`, obj, {
             observe: 'response',

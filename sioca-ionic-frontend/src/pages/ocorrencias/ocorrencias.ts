@@ -38,7 +38,7 @@ export class OcorrenciasPage {
   }
 
   showOcorrencia(ocorrenciaId: string) {
-    //this.navCtrl.push('OcorrenciasPage', {ocorrenciaId: ocorrenciaId});    
+    this.navCtrl.push('OcorrenciaDetalhePage', {ocorrenciaId: ocorrenciaId});    
     console.log('ocorrencia-id: ' + ocorrenciaId);
   }
 
