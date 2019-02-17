@@ -15,6 +15,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <ion-searchbar (ionInput)="getOcorrencias($event)" (ionClear)="loadData()"></ion-searchbar>  
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="showOcorrencia(item.id)">
       <ion-thumbnail item-start>

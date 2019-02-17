@@ -26,6 +26,10 @@ export class OcorrenciasPage {
 
   loadData() {
     let loader = this.presentLoading();
+
+    if(this.items.length < 10){
+      this.items = [];
+    }
     this.ocorrenciaService.findAll(this.page, 10).subscribe(response => {
       this.items = this.items.concat(response);
       loader.dismiss();
@@ -35,6 +39,16 @@ export class OcorrenciasPage {
       error => {
         loader.dismiss();
       });
+  }
+
+  getOcorrencias(ev: any){
+    const val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.items = this.items.filter((item) => {
+        return (item.codigoOcorrencia ? (item.codigoOcorrencia.toLowerCase().indexOf(val.toLowerCase()) > -1): null);
+      })
+    }
   }
 
   showOcorrencia(ocorrenciaId: string) {
