@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { OcorrenciaService } from '../../services/domain/ocorrencia.service';
 import { OcorrenciaDTO } from '../../models/ocorrencias.dto';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TrechoService } from '../../services/domain/trecho.service';
 import { LocalizacaoService } from '../../services/domain/localizacao.service';
 import { TrechoDTO } from '../../models/trecho.dto';
@@ -61,17 +61,17 @@ export class OcorrenciaDetalhePage {
 
     this.formGroup = this.formBuilder.group({
       //codigoOcorrencia: ['',[Validators.required, Validators.min(5), Validators.maxLength(120)]],
-      codigoOcorrencia: ['', []],
-      trechoId: [null, []],
-      loteId: [null, []],
-      kmInicial: ['', []],
-      kmFinal: ['', []],
-      dataRegistro: [, []],
-      localizacaoId: [null, []],
-      tipoOcorrenciaId: [null, []],
-      gravidade: ['', []],
+      codigoOcorrencia: ['', [Validators.required]],
+      trechoId: [null, [Validators.required]],
+      loteId: [null, [Validators.required]],
+      kmInicial: ['', [Validators.required]],
+      kmFinal: ['', [Validators.required]],
+      dataRegistro: ['', []],
+      localizacaoId: [null, [Validators.required]],
+      tipoOcorrenciaId: [null, [Validators.required]],
+      gravidade: ['', [Validators.required]],
       situacao: [null, []],
-      topicoPBAId: [null, []],
+      topicoPBAId: [null, [Validators.required]],
       tipoLado: [null, []],
       emergencial: ['', []],
       descricao: ['', []],
@@ -84,13 +84,7 @@ export class OcorrenciaDetalhePage {
     let ocorrenciaId = this.navParams.get('ocorrenciaId');
     this.ocorrenciaService.findById(ocorrenciaId).subscribe(response => {
       this.ocorrencia = response as OcorrenciaDTO;
-      this.ocorrencia.id = ocorrenciaId;
       console.log(this.ocorrencia);
-      /*this.ocorrencia.lote =  <LoteDTO> response.lote;
-      this.ocorrencia.lote.trecho = <TrechoDTO> response.lote.trecho;
-      this.ocorrencia.localizacao = <LocalizacaoDTO> response.localizacao;
-      this.ocorrencia.tipoOcorrencia = <TipoOcorrenciaDTO>  response.tipoOcorrencia;
-      this.ocorrencia.topicoPBA = <TopicopbaDTO>  response.topicoPBA;*/
       this.carregarOcorrencia(loader);
     },
       error => {
@@ -106,18 +100,16 @@ export class OcorrenciaDetalhePage {
     this.formGroup.controls.codigoOcorrencia.setValue(this.ocorrencia.codigoOcorrencia);
     this.formGroup.controls.kmInicial.setValue(this.ocorrencia.kmInicial);
     this.formGroup.controls.kmFinal.setValue(this.ocorrencia.kmFinal);
-    this.formGroup.controls.dataRegistro.setValue(this.ocorrencia.dataRegistro.toString);
-    this.formGroup.controls.gravidade.setValue(this.ocorrencia.gravidade.toString);
+    this.formGroup.controls.dataRegistro.setValue(new Date(this.ocorrencia.dataRegistro).toISOString);
+    this.formGroup.controls.gravidade.setValue(this.ocorrencia.gravidade);
     this.formGroup.controls.situacao.setValue(this.ocorrencia.situacao);
     this.formGroup.controls.tipoLado.setValue(this.ocorrencia.tipoLado);
     this.formGroup.controls.emergencial.setValue(this.ocorrencia.emergencial);
     this.formGroup.controls.descricao.setValue(this.ocorrencia.descricao);
 
-    //console.log('trecho: ', this.ocorrencia.lote.trecho);
-
     this.trechoService.findAll().subscribe(response => {
       this.trechos = response;
-      this.formGroup.controls.trechoId.setValue(this.trechos[1].id);
+      this.formGroup.controls.trechoId.setValue(this.ocorrencia.lote.trecho.id);
       this.updateLotes();
       /*if (this.ocorrencia.lote && this.ocorrencia.lote.trecho) {
         this.formGroup.controls.trechoId.setValue(this.ocorrencia.lote.trecho.id);
@@ -134,7 +126,7 @@ export class OcorrenciaDetalhePage {
     this.localizacaoService.findAll().subscribe(response => {
       this.localizacoes = response;
 
-      this.formGroup.controls.localizacaoId.setValue(this.localizacoes[0].id);
+      this.formGroup.controls.localizacaoId.setValue(this.ocorrencia.localizacao.id);
       /*
       console.log(this.ocorrencia.localizacao.id);
       if (this.ocorrencia.localizacao.id) {
@@ -148,7 +140,7 @@ export class OcorrenciaDetalhePage {
 
     this.tipoOcorrenciaService.findAll().subscribe(response => {
       this.tipoOcorrencias = response;
-      this.formGroup.controls.tipoOcorrenciaId.setValue(this.tipoOcorrencias[0].id);
+      this.formGroup.controls.tipoOcorrenciaId.setValue(this.ocorrencia.tipoOcorrencia.id);
       /*if (this.ocorrencia.tipoOcorrencia) {
         this.formGroup.controls.tipoOcorrenciaId.setValue(this.ocorrencia.tipoOcorrencia.id);
       }*/
@@ -160,7 +152,7 @@ export class OcorrenciaDetalhePage {
 
     this.topicopbaService.findAll().subscribe(response => {
       this.topicospba = response;
-      this.formGroup.controls.topicoPBAId.setValue(this.topicospba[0].id);
+      this.formGroup.controls.topicoPBAId.setValue(this.ocorrencia.topicoPBA.id);
       /*if (this.ocorrencia.topicoPBA) {
         this.formGroup.controls.topicoPBAId.setValue(this.ocorrencia.topicoPBA.id);
       }*/
@@ -176,6 +168,7 @@ export class OcorrenciaDetalhePage {
     let trechoId = this.formGroup.value.trechoId;
     this.loteService.findAll(trechoId).subscribe(response => {
       this.lotes = response;
+      this.formGroup.controls.loteId.setValue(this.ocorrencia.lote.id);
       /*if (this.ocorrencia.lote) {
         this.formGroup.controls.loteId.setValue(this.ocorrencia.lote.id);
       } else {
