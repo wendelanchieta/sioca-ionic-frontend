@@ -21,38 +21,54 @@ export class OcorrenciasPage {
   }
 
   ionViewDidLoad() {
-    this.loadData();
+    //this.loadData();
+    this.loadDataUsuario();
   }
 
   loadData() {
     let loader = this.presentLoading();
 
-    if(this.items.length < 10){
+    if (this.items.length < 10) {
       this.items = [];
     }
     this.ocorrenciaService.findAll(this.page, 10).subscribe(response => {
       this.items = this.items.concat(response);
       loader.dismiss();
-      console.log('page: ', this.page);
-      console.log('items: ', this.items.length);
+      //console.log('page: ', this.page);
+      //console.log('items: ', this.items.length);
     },
       error => {
         loader.dismiss();
       });
   }
 
-  getOcorrencias(ev: any){
+  loadDataUsuario() {
+    let loader = this.presentLoading();
+
+    if (this.items.length < 10) {
+      this.items = [];
+    }
+    this.ocorrenciaService.findOcorrenciasUsuario(this.page, 10).subscribe(response => {
+      this.items = this.items.concat(response);
+      loader.dismiss();
+    },
+      error => {
+        loader.dismiss();
+      });
+  }
+
+  getOcorrencias(ev: any) {
     const val = ev.target.value;
 
     if (val && val.trim() != '') {
       this.items = this.items.filter((item) => {
-        return (item.codigoOcorrencia ? (item.codigoOcorrencia.toLowerCase().indexOf(val.toLowerCase()) > -1): null);
+        return (item.codigoOcorrencia ? (item.codigoOcorrencia.toLowerCase().indexOf(val.toLowerCase()) > -1) : null);
       })
     }
   }
 
   showOcorrencia(ocorrenciaId: string) {
-    this.navCtrl.push('OcorrenciaDetalhePage', {ocorrenciaId: ocorrenciaId});    
+    this.navCtrl.push('OcorrenciaDetalhePage', { ocorrenciaId: ocorrenciaId });
     console.log('ocorrencia-id: ' + ocorrenciaId);
   }
 

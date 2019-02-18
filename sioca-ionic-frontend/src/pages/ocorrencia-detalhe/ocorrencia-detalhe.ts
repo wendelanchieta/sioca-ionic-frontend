@@ -100,7 +100,7 @@ export class OcorrenciaDetalhePage {
     this.formGroup.controls.codigoOcorrencia.setValue(this.ocorrencia.codigoOcorrencia);
     this.formGroup.controls.kmInicial.setValue(this.ocorrencia.kmInicial);
     this.formGroup.controls.kmFinal.setValue(this.ocorrencia.kmFinal);
-    this.formGroup.controls.dataRegistro.setValue(new Date(this.ocorrencia.dataRegistro).toISOString);
+    this.formGroup.controls.dataRegistro.setValue(this.ocorrencia.dataRegistro);
     this.formGroup.controls.gravidade.setValue(this.ocorrencia.gravidade);
     this.formGroup.controls.situacao.setValue(this.ocorrencia.situacao);
     this.formGroup.controls.tipoLado.setValue(this.ocorrencia.tipoLado);

@@ -65,7 +65,14 @@
 
         <ion-item>
           <ion-label stacked>Data de Registro*</ion-label>
-          <ion-datetime pickerFormat="DD MM YYYY" displayFormat="DD/MM/YYYY" formControlName="dataRegistro" type="text"></ion-datetime>
+          <ion-datetime 
+            pickerFormat="DD MM YYYY" 
+            displayFormat="DD/MM/YYYY" 
+            formControlName="dataRegistro" 
+            cancelText="Cancelar" 
+            doneText="Selecionar" 
+            type="text">
+          </ion-datetime>
         </ion-item>
 
         <ion-item>
@@ -202,21 +209,6 @@
             <ion-item *ngIf="picture">
               <img [src]="picture">
             </ion-item>
-            <!--<ion-item>
-              <ion-label stacked>Título foto</ion-label>
-              <ion-input type="text"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label stacked>Tipo foto*</ion-label>
-              <ion-select>
-                <ion-option value="A">Problema</ion-option>
-                <ion-option value="C" selected=true>Solução</ion-option>
-              </ion-select>
-            </ion-item>
-            <ion-item>
-              <ion-label stacked>Descrição*</ion-label>
-              <ion-textarea maxlength="1000" rows="4"></ion-textarea>
-            </ion-item>-->
             <ion-item>
               <!--<button ion-button block (click)="getCameraPicture()" [disabled]="cameraOn">Camera</button>-->
               <button ion-button type="button" (click)="getCameraPicture()" [disabled]="cameraOn">Camera</button>
