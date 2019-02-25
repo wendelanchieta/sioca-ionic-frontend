@@ -92,6 +92,7 @@
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
     <allow-navigation href="http://10.61.51.161:8100" sessionid="e0b9c761" />
+    <plugin name="cordova-plugin-nativestorage" spec="^2.3.2" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.0.0" />
 </widget>

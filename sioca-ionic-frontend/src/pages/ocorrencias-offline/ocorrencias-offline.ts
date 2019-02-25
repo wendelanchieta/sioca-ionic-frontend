@@ -1,31 +1,26 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ToastController, Platform, LoadingController } from 'ionic-angular';
-import { LocalizacaoDTO } from '../../models/localizacao.dto';
-import { LoteDTO } from '../../models/lote.dto';
-import { MunicipioDTO } from '../../models/municipio.dto';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController, Platform } from 'ionic-angular';
 import { OcorrenciaDTO } from '../../models/ocorrencias.dto';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { UfDTO } from '../../models/uf.dto';
+import { MunicipioDTO } from '../../models/municipio.dto';
+import { TrechoDTO } from '../../models/trecho.dto';
+import { LoteDTO } from '../../models/lote.dto';
+import { LocalizacaoDTO } from '../../models/localizacao.dto';
 import { TipoOcorrenciaDTO } from '../../models/tipoOcorrencia.dto';
 import { TopicopbaDTO } from '../../models/topicopba.dto';
-import { TrechoDTO } from '../../models/trecho.dto';
-import { UfDTO } from '../../models/uf.dto';
-import { LocalizacaoService } from '../../services/domain/localizacao.service';
-import { LoteService } from '../../services/domain/lote.service';
-import { OcorrenciaService } from '../../services/domain/ocorrencia.service';
-import { TipoOcorrenciaService } from '../../services/domain/tipoocorrencia.service';
-import { TopicopbaService } from '../../services/domain/topicopba.service';
-import { TrechoService } from '../../services/domain/trecho.service';
-import { AlertController } from 'ionic-angular/components/alert/alert-controller';
-import { Geolocation } from '@ionic-native/geolocation';
-import { CameraOptions, Camera } from '@ionic-native/camera';
 import { FotoDTO } from '../../models/foto.dto';
+import { CameraOptions, Camera } from '@ionic-native/camera';
+import { Geolocation } from '@ionic-native/geolocation';
+import { StorageOcorrenciaService } from '../../services/domain/storage.ocorrencia.service';
+import { EmpreendimentoDTO } from '../../models/empreendimento.dto';
 
 @IonicPage()
 @Component({
-  selector: 'page-ocorrencia-criar',
-  templateUrl: 'ocorrencia-criar.html',
+  selector: 'page-ocorrencias-offline',
+  templateUrl: 'ocorrencias-offline.html',
 })
-export class OcorrenciaCriarPage {
+export class OcorrenciasOfflinePage {
 
   picture: string;
   cameraOn: boolean = false;
@@ -40,24 +35,19 @@ export class OcorrenciaCriarPage {
   localizacoes: LocalizacaoDTO[];
   tipoOcorrencias: TipoOcorrenciaDTO[];
   topicospba: TopicopbaDTO[];
-  fotos:FotoDTO[];
+  fotos: FotoDTO[];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    public trechoService: TrechoService,
-    public loteService: LoteService,
-    public localizacaoService: LocalizacaoService,
-    public tipoOcorrenciaService: TipoOcorrenciaService,
-    public topicopbaService: TopicopbaService,
-    public ocorrenciaService: OcorrenciaService,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public platform: Platform,
     public geolocation: Geolocation,
-    public camera: Camera) {
+    public camera: Camera,
+    public storageOcorrenciaService:StorageOcorrenciaService) {
 
     this.ocorrenciaSegment = 'dados';
 
@@ -80,68 +70,42 @@ export class OcorrenciaCriarPage {
       recomendacao: ['', []]
     });
 
+
   }
-
-
 
   ionViewDidLoad() {
-    let loader = this.presentLoading();
-    this.trechoService.findAll().subscribe(response => {
-      this.trechos = response;
-      this.formGroup.controls.trechoId.setValue(this.trechos[0].id);
-      this.updateLotes();
-    },
-      error => {
-        loader.dismiss();
-      });
-
-    this.localizacaoService.findAll().subscribe(response => {
-      this.localizacoes = response;
-      this.formGroup.controls.localizacaoId.setValue(this.localizacoes[0].id);
-    },
-      error => {
-        loader.dismiss();
-      });
-
-    this.tipoOcorrenciaService.findAll().subscribe(response => {
-      this.tipoOcorrencias = response;
-      this.formGroup.controls.tipoOcorrenciaId.setValue(this.tipoOcorrencias[0].id);
-    },
-      error => {
-        loader.dismiss();
-      });
-
-    this.topicopbaService.findAll().subscribe(response => {
-      this.topicospba = response;
-      this.formGroup.controls.topicoPBAId.setValue(this.topicospba[0].id);
-    },
-      error => {
-        loader.dismiss();
-      });
-    loader.dismiss();
-  }
-
-  updateLotes() {
-    let loader = this.presentLoading();
-    let trechoId = this.formGroup.value.trechoId;
-    this.loteService.findAll(trechoId).subscribe(response => {
-      this.lotes = response;
-      this.formGroup.controls.loteId.setValue(null);
-      loader.dismiss();
-    },
-      error => {
-        loader.dismiss();
-      });
   }
 
   carregarOcorrencia() {
+    let ef : EmpreendimentoDTO = {
+      id: '1',
+      nome: 'Ferrovia Norte Sul',
+      sigla: 'FNS',
+      trechos: null
+    }
+
+    let tc: TrechoDTO = {
+      id: '2',
+      nome: 'Tramo Norte',
+      nomeEmpreendimento: 'FNS - Ferrovia Norte Sul',
+      lotes: null,
+      empreendimento: ef,
+      trechoEmpreendimento: 'offline'
+    };
+
+    let lt: LoteDTO = {
+      id: '1',
+      trecho: tc,
+      codigo: 'LOTE S/N CT 11/00',
+      usuarios: null
+    };
+    let id = this.storageOcorrenciaService.getAll.length + 1;
     let oc = <OcorrenciaDTO>{}
-    oc.lote = <LoteDTO>{};
-    oc.lote.trecho = <TrechoDTO>{};
+    oc.id = id.toString();
     oc.localizacao = <LocalizacaoDTO>{};
     oc.tipoOcorrencia = <TipoOcorrenciaDTO>{}
     oc.topicoPBA = <TopicopbaDTO>{};
-
+    oc.lote = lt;
 
     oc.codigoOcorrencia = this.formGroup.controls.codigoOcorrencia.value;
     oc.lote.trecho.id = this.formGroup.controls.trechoId.value;
@@ -162,29 +126,19 @@ export class OcorrenciaCriarPage {
   }
 
   cadastrarOcorrencia() {
-    this.carregarOcorrencia();
-    console.log('Cadastrando ocorrencia...');
     let loader = this.presentLoading();
-    this.ocorrenciaService.insert(this.ocorrencia).subscribe(response => {
-      console.log(response.headers.get('location'));
-      //this.showInsertOkToast()
-      this.showInsertOk();
-      loader.dismiss();
-    },
-      error => {
-        console.log(error);
-        console.error('Error ao cadastrar ocorrencia: ', error)
-        loader.dismiss();
-        if (error.status == 403) {
-          this.navCtrl.setRoot('HomePage');
-        }
-      });
+    console.log('Cadastrando ocorrencia offiline...');
+    this.carregarOcorrencia();
+    this.storageOcorrenciaService.setOcorrencia(this.ocorrencia);
+    console.log('ocorrencia armazenada offline: ',this.ocorrencia);
+    this.showInsertOk();
+    loader.dismiss();  
   }
 
   showInsertOk() {
     let alert = this.alertCtrl.create({
       title: 'Sucesso!',
-      message: 'Cadastro efetuado com sucesso',
+      message: 'Cadastro offline efetuado com sucesso',
       enableBackdropDismiss: false,
       buttons: [
         {
@@ -200,7 +154,7 @@ export class OcorrenciaCriarPage {
 
   showInsertOkToast() {
     const toast = this.toastCtrl.create({
-      message: 'Cadastro efetuado com sucesso',
+      message: 'Cadastro offline efetuado com sucesso',
       duration: 3000
     });
     toast.present();

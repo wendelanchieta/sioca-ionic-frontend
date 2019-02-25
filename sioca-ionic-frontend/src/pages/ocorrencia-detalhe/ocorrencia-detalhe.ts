@@ -15,6 +15,7 @@ import { TipoOcorrenciaService } from '../../services/domain/tipoocorrencia.serv
 import { TopicopbaService } from '../../services/domain/topicopba.service';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Geolocation } from '@ionic-native/geolocation';
+import { FotoDTO } from '../../models/foto.dto';
 
 @IonicPage()
 @Component({
@@ -29,6 +30,7 @@ export class OcorrenciaDetalhePage {
   localizacoes: LocalizacaoDTO[];
   tipoOcorrencias: TipoOcorrenciaDTO[];
   topicospba: TopicopbaDTO[];
+  fotos:FotoDTO[];
 
   picture: string;
   cameraOn: boolean = false;
@@ -161,6 +163,8 @@ export class OcorrenciaDetalhePage {
         console.log(error);
         loader.dismiss();
       });
+
+    this.fotos = this.ocorrencia.fotos;  
   }
 
   updateLotes() {

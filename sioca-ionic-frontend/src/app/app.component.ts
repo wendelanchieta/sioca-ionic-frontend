@@ -27,6 +27,7 @@ export class MyApp {
       { title: 'Buscar', component: 'OcorrenciasPage' },
       { title: 'Cadastrar', component: 'OcorrenciaCriarPage' },
       { title: 'Sincronizar', component: 'OcorrenciaSincronizarPage' },
+      { title: 'Offline', component: 'OcorrenciasOfflinePage' },
       { title: 'Logout', component: '' }
     ];
 

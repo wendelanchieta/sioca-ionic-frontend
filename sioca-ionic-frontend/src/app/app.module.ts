@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 import { MyApp } from './app.component';
 
@@ -39,6 +40,7 @@ import { NetworkService } from '../services/network.service';
     AuthService,
     StorageService,
     Geolocation,
+    NativeStorage,
     Network,
     NetworkService
   ]

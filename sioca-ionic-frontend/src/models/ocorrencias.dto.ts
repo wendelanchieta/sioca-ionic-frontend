@@ -12,6 +12,7 @@ import { TrechoDTO } from "./trecho.dto";
 import { LoteDTO } from "./lote.dto";
 import { LocalizacaoDTO } from "./localizacao.dto";
 import { TipoOcorrenciaDTO } from "./tipoOcorrencia.dto";
+import { FotoDTO } from "./foto.dto";
 
 export interface OcorrenciaDTO {
     id: string;
@@ -51,5 +52,6 @@ export interface OcorrenciaDTO {
     numeroCompletoOcorrencia?: string;
     empreendimentoPorTrecho?: EmpreendimentoDTO;
     trechoPorLote?: TrechoDTO;
+    fotos?: FotoDTO[];
     ano?: number;
 }

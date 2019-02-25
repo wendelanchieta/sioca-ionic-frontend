@@ -26,7 +26,7 @@ export class HomePage {
     public networkService: NetworkService) {
 
     this.network.onDisconnect().subscribe(() => {
-      console.log('network was disconnected :-(');
+      console.log('Dispositivo offline :-(');
       let toast = this.toastController.create({
         message: 'Dispositivo offline',
         duration: 3000,
@@ -55,30 +55,28 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.auth.refreshToken().subscribe(response => {
+    if(this.auth.userHasLoged){
+      this.auth.refreshToken().subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('OcorrenciasPage');
+      },
+        error => { });
+    } else {
+      this.setOffline();
+    }
+    
+  }
+
+  login() {
+    this.auth.authenticate(this.creds).subscribe(response => {
       this.auth.successfulLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot('OcorrenciasPage');
     },
       error => { });
   }
 
-  login() {
-    /*if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
-      if (this.auth.userHasLoged) {
-        this.navCtrl.setRoot('OcorrenciasPage');
-      }
-    } else {
-      this.auth.authenticate(this.creds).subscribe(response => {
-        this.auth.successfulLogin(response.headers.get('Authorization'));
-        this.navCtrl.setRoot('OcorrenciasPage');
-      },
-        error => { });
-    }*/
-    this.auth.authenticate(this.creds).subscribe(response => {
-      this.auth.successfulLogin(response.headers.get('Authorization'));
-      this.navCtrl.setRoot('OcorrenciasPage');
-    },
-      error => { });
+  setOffline(){
+    this.navCtrl.setRoot('OcorrenciasOfflinePage');
   }
 
 }

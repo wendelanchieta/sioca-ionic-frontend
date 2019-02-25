@@ -1,0 +1,236 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Ocorrências Offline</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="formGroup" (ngSubmit)="cadastrarOcorrencia(); $event.preventDefault()">
+
+    <div padding>
+      <ion-segment [(ngModel)]="ocorrenciaSegment" [ngModelOptions]="{standalone: true}">
+        <ion-segment-button value="dados">
+          <ion-icon name="clipboard"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="comentario" alt="Comentário">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="justificativa">
+          <ion-icon name="quote"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="geo">
+          <ion-icon name="pin"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="foto">
+          <ion-icon name="images"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div [ngSwitch]="ocorrenciaSegment">
+      <ion-list *ngSwitchCase="'dados'">
+
+        <ion-item>
+          <ion-label stacked>Número único</ion-label>
+          <ion-input formControlName="codigoOcorrencia" type="text" value="000000.0000.00-00-00" disabled="true">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>KM Inicial*</ion-label>
+          <ion-input formControlName="kmInicial" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>KM Final*</ion-label>
+          <ion-input formControlName="kmFinal" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Data de Registro*</ion-label>
+          <ion-datetime pickerFormat="DD MM YYYY" displayFormat="DD/MM/YYYY" formControlName="dataRegistro"
+            cancelText="Cancelar" doneText="Selecionar" type="text">
+          </ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Localização</ion-label>
+          <ion-select formControlName="localizacaoId">
+            <ion-option value="1">Caminho de Serviço</ion-option>
+            <ion-option value="2">Canteiro</ion-option>
+            <ion-option value="3">Faixa de Domínio</ion-option>
+            <ion-option value="4">Jazida</ion-option>
+            <ion-option value="5">Obra de Arte Especial</ion-option>
+            <ion-option value="6">Fora da Faixa de Domínio</ion-option>
+            <ion-option value="7">APP</ion-option>
+            <ion-option value="8">Obra de arte corrente</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Tipo*</ion-label>
+          <ion-select formControlName="tipoOcorrenciaId">
+            <ion-option value="1">Erosão/Assoreamento</ion-option>
+            <ion-option value="4">Áreas Degradadas</ion-option>
+            <ion-option value="2">Faixa de Domínio</ion-option>
+            <ion-option value="3">Contaminação e Poluição</ion-option>
+            <ion-option value="5">Sistema de Drenagem</ion-option>
+            <ion-option value="7">Danos ao Patrimônio Espeleológico</ion-option>
+            <ion-option value="9">Licenças/Outorgas</ion-option>
+            <ion-option value="12">Plantios e Revestimento Vegetal</ion-option>
+            <ion-option value="14">Impactos à Fauna Silvestre</ion-option>
+            <ion-option value="18">Supressão Vegetal</ion-option>
+            <ion-option value="8">Saúde e Segurança no Trabalho</ion-option>
+            <ion-option value="25">Desmobilização</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Gravidade*</ion-label>
+          <ion-select formControlName="gravidade">
+            <ion-option value="A">Alta</ion-option>
+            <ion-option value="B">Média</ion-option>
+            <ion-option value="C" selected=true>Baixa</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Situação do Empreendimento*</ion-label>
+          <ion-select formControlName="situacao">
+            <ion-option value="O">Em Operação</ion-option>
+            <ion-option value="A" selected=true>Obras em Andamento</ion-option>
+            <ion-option value="P">Obras Paralisadas</ion-option>
+            <ion-option value="C">Obras Concluídas</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>PBA*</ion-label>
+          <ion-select formControlName="topicoPBAId">
+            <ion-option value="1">Programa de Proteção da Flora</ion-option>
+            <ion-option value="2">Programa de Proteção da Fauna</ion-option>
+            <ion-option value="3">Programa de Supervisão Ambiental</ion-option>
+            <ion-option value="4">Programa de Recuperação de Passivos Ambientais</ion-option>
+            <ion-option value="5">Programa de Gerenciamento de Obras</ion-option>
+            <ion-option value="6">Programa de Treinamento, Segurança e Saúde da Mão de Obra</ion-option>
+            <ion-option value="7">Programa de Comunicação Social</ion-option>
+            <ion-option value="8">Programa de Educação Ambiental</ion-option>
+            <ion-option value="9">Programa de Desapropriações e Indenizações</ion-option>
+            <ion-option value="11">Programa de Apoio a Comunidades Frágeis</ion-option>
+            <ion-option value="12">Programa de Melhoria de Acessos e Travessias</ion-option>
+            <ion-option value="13">Programa de Prospecção e Salvamento Arqueológico</ion-option>
+            <ion-option value="14">Programa para o Patrimônio Espeleológico</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Lado*</ion-label>
+          <ion-select formControlName="tipoLado">
+            <ion-option value="D">Lado Direito</ion-option>
+            <ion-option value="E">Lado Esquerdo</ion-option>
+            <ion-option value="A" selected=true>Lado Direito e Esquerdo</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Emergencial*</ion-label>
+          <ion-select formControlName="emergencial">
+            <ion-option value="N" selected=true>Não</ion-option>
+            <ion-option value="S">Sim</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Descrição*</ion-label>
+          <ion-textarea formControlName="descricao" maxlength="1000" rows="4"></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'comentario'">
+        <ion-item>
+          <ion-card>
+            <ion-card-header>
+              <ion-icon name="contact"></ion-icon>
+              Comentário
+            </ion-card-header>
+            <ion-card-content>
+              Isso é um teste de comentário!
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Recomendação</ion-label>
+          <ion-textarea name="descricao" maxlength="1000" rows="4" value="Registrando uma Recomendação"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'justificativa'">
+        <ion-item>
+          <ion-card>
+            <ion-card-header>
+              <ion-icon name="contact"></ion-icon>
+              Justificativa
+            </ion-card-header>
+            <ion-card-content>
+              Isso é um teste de justificativa!
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Justificativa</ion-label>
+          <ion-textarea name="descricao" maxlength="1000" rows="4" value="Registrando uma Justificativa"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'geo'">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/imgs/no-img.jpg">
+          </ion-thumbnail>
+          <h2>Luna</h2>
+        </ion-item>
+        <button ion-button type="button" (click)="getGeo()">Geo</button>
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'foto'">
+        <ion-item>
+          <ion-slides>
+            <ion-slide>
+              <h1>Animais na Via</h1>
+              <img src="assets/imgs/animais-via.jpg">
+            </ion-slide>
+            <ion-slide>
+              <h1>Trabalhadores na via</h1>
+              <img src="assets/imgs/trabalhadores-via.jpg">
+            </ion-slide>
+            <ion-slide>
+              <h1>Construção de talude</h1>
+              <img src="assets/imgs/construcao-talude.jpg">
+            </ion-slide>
+          </ion-slides>
+          <ion-card>
+            <ion-card-header>
+              Enviar imagem
+            </ion-card-header>
+            <ion-item *ngIf="picture">
+              <img [src]="picture">
+            </ion-item>
+            <ion-item>
+              <button ion-button type="button" (click)="getCameraPicture()" [disabled]="cameraOn">Camera</button>
+              <button ion-button type="button" (click)="getGalLeryPicture()" [disabled]="cameraOn">Galeria</button>
+            </ion-item>
+          </ion-card>
+        </ion-item>
+      </ion-list>
+    </div>
+
+
+
+    <button ion-button block type="submit">Criar Ocorrência</button>
+  </form>
+</ion-content>
