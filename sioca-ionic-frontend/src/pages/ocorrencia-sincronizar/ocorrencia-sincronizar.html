@@ -1,13 +1,23 @@
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Sincronizar Ocorrências</ion-title>
-    </ion-navbar>
-  </ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Sincronizar Ocorrências</ion-title>
+  </ion-navbar>
+</ion-header>
 
 
 <ion-content padding>
+
+  <ion-list>
+    <button ion-item *ngFor="let item of items" >
+      <ion-thumbnail item-start>
+        <img src="assets/imgs/no-img.jpg">
+      </ion-thumbnail>
+      <h2>{{item.codigoOcorrencia}}</h2>
+      <p>{{item.descricao}}</p>
+    </button>
+  </ion-list>
 
 </ion-content>

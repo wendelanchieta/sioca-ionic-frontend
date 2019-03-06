@@ -135,6 +135,11 @@ export class OcorrenciasOfflinePage {
     loader.dismiss();  
   }
 
+  showOcorrencia(ocorrenciaId: string) {
+    this.navCtrl.push('OcorrenciaDetalhePage', { ocorrenciaId: ocorrenciaId });
+    console.log('ocorrencia-id: ' + ocorrenciaId);
+  }
+
   showInsertOk() {
     let alert = this.alertCtrl.create({
       title: 'Sucesso!',
