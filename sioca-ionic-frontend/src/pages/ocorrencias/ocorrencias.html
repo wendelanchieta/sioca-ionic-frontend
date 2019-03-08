@@ -11,11 +11,17 @@
 
 <ion-content padding>
 
+  <ion-fab bottom right>
+    <button navPush="OcorrenciaCriarPage" ion-fab mini>
+      <ion-icon name="add-circle"></ion-icon>
+    </button>
+  </ion-fab>
+
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-searchbar (ionInput)="getOcorrencias($event)" (ionClear)="loadData()"></ion-searchbar>  
+  <ion-searchbar (ionInput)="getOcorrencias($event)" (ionClear)="loadData()"></ion-searchbar>
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="showOcorrencia(item.id)">
       <ion-thumbnail item-start>
