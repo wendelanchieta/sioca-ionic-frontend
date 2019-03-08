@@ -28,6 +28,7 @@ import { FotoDTO } from '../../models/foto.dto';
 export class OcorrenciaCriarPage {
 
   picture: string;
+  image: string;
   cameraOn: boolean = false;
   ocorrenciaSegment: string;
 

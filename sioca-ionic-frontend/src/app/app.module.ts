@@ -16,6 +16,7 @@ import { AuthInterceptorProvider } from '../interceptors/auth-interceptor';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Network } from '@ionic-native/network';
 import { NetworkService } from '../services/network.service';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NetworkService } from '../services/network.service';
     Geolocation,
     NativeStorage,
     Network,
-    NetworkService
+    NetworkService,
+    GoogleMaps
   ]
 })
 export class AppModule { }
