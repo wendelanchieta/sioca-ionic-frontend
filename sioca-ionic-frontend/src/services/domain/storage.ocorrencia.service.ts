@@ -34,7 +34,7 @@ export class StorageOcorrenciaService {
     getAll(): OcorrenciaDTO[] {
         let ocs: OcorrenciaDTO[] = [];
         this.nativeStorage.keys().then((k) => {
-            ocs = JSON.stringify(k);
+            
         });
         return ocs;
     }
