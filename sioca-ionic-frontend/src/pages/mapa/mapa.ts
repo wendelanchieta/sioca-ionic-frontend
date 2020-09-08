@@ -35,8 +35,8 @@ export class MapaPage {
   loadMap() {
 
     Environment.setEnv({
-      'API_KEY_FOR_BROWSER_RELEASE': '',
-      'API_KEY_FOR_BROWSER_DEBUG': ''
+      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyAViSyk_jRQR-_Gejd29S-GWE5wveZNGBM',
+      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyAViSyk_jRQR-_Gejd29S-GWE5wveZNGBM'
     });
 
     // Create a map after the view is loaded.
